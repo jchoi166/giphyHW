@@ -16,7 +16,7 @@
         </div>
 
         <div class="row">
-            <div class="col-md-6" id = "images-view">hello</div>
+            <div class="col-md-6" id="images-view">hello</div>
             <div class="col-md-6">hello</div>
         </div>
 
@@ -27,9 +27,6 @@
 
 
         var vgArray = ["Fortnite", "PUBG", "CS:GO", "Rainbow Six: Seige", "League of Legends", "Dota 2", "World of Warcraft", "Overwatch"]
-        var apiKey = "zeKh1hQY0TDUN2mZFRJkmePDHKRO27kD"
-        var game = $(this).attr("data-name")
-        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + game + "&limit=10&api_key=" + apiKey
 
         function createButtons() {
 
@@ -42,36 +39,40 @@
             })
         }
         function displayInfo() {
+            var apiKey = "zeKh1hQY0TDUN2mZFRJkmePDHKRO27kD"
+            var game = $(this).attr("data-name")
+            var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + game + "&limit=10&api_key=" + apiKey
+
 
             $.get(queryURL)
 
                 .then(function (r) {
-                    r.data.forEach(function(d){
-                    // Creating a div to hold the movie
-                    var movieDiv = $("<div class='game'>");
+                    r.data.forEach(function (d) {
+                        // Creating a div to hold the movie
+                        var movieDiv = $("<div class='game'>");
 
-                    // Storing the rating data
-                    var rated = d.rating;
+                        // Storing the rating data
+                        var rated = d.rating;
 
-                    // Creating an element to have the rating displayed
-                    var pOne = $("<p>").text("Rating: " + rated);
+                        // Creating an element to have the rating displayed
+                        var pOne = $("<p>").text("Rating: " + rated);
 
-                    // Displaying the rating
-                    movieDiv.append(pOne);
+                        // Displaying the rating
+                        movieDiv.append(pOne);
 
-                    // Retrieving the URL for the image
-                    var imgURL = d.images.original.url;
+                        // Retrieving the URL for the image
+                        var imgURL = d.images.original.url;
 
-                    // Creating an element to hold the image
-                    var image = $("<img>").attr("src", imgURL);
+                        // Creating an element to hold the image
+                        var image = $("<img>").attr("src", imgURL);
 
-                    // Appending the image
-                    movieDiv.append(image);
+                        // Appending the image
+                        movieDiv.append(image);
 
-                    // Putting the entire movie above the previous movies
-                    $("#images-view").prepend(movieDiv);
+                        // Putting the entire movie above the previous movies
+                        $("#images-view").prepend(movieDiv);
                     })
-                
+
 
                 })
                 .catch(function (e) {
