@@ -23,10 +23,19 @@
 
         <div class="row">
             <div class="col-md-6 d-flex flex-wrap" id="images-view"></div>
-            <div class="col-md-6">hello</div>
+            <div class="col-md-6">
+                <form id="game-form">
+                    <label for="game-input"> Add a game! </label>
+                    <input type="text" id="game-input">
+                    <br>
+                    <input id="add-game" type="submit" value="Add a game!">
+                </form>
+            </div>
         </div>
 
     </div>
+
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript">
@@ -35,6 +44,8 @@
         var vgArray = ["Fortnite", "PUBG", "CS:GO", "Rainbow Six: Seige", "League of Legends", "Dota 2", "World of Warcraft", "Overwatch"]
 
         function createButtons() {
+
+            $("#categories").empty()
 
             vgArray.forEach(function (i) {
                 var a = $("<button>");
@@ -87,6 +98,18 @@
                 })
 
         }
+
+        $("#add-game").on("click", function (event) {
+            event.preventDefault();
+            // This line grabs the input from the textbox
+            var movie = $("#game-input").val().trim();
+
+            // Adding movie from the textbox to our array
+            vgArray.push(movie);
+
+            // Calling renderButtons which handles the processing of our movie array
+            createButtons();
+        });
 
         $(document).on("click", ".game-button", displayInfo);
 
