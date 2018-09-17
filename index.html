@@ -43,6 +43,7 @@
 
         var vgArray = ["Fortnite", "PUBG", "CS:GO", "Rainbow Six: Seige", "League of Legends", "Dota 2", "World of Warcraft", "Overwatch"]
 
+//~~~~~~~~~~~~~~~~~~~~ Creating Buttons ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
         function createButtons() {
 
             $("#categories").empty()
@@ -55,8 +56,10 @@
                 $("#categories").append(a);
             })
         }
+
+//~~~~~~~~~~~~~~~~~~~~ Displaying Info ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
         function displayInfo() {
-            var apiKey = "zeKh1hQY0TDUN2mZFRJkmePDHKRO27kD"
+            var apiKey = "ZhJNzy2HIqWs1nGPBf5FzBUmtU7OZvif"
             var game = $(this).attr("data-name")
             var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + game + "&limit=10&api_key=" + apiKey
 
@@ -64,29 +67,23 @@
             $.get(queryURL)
 
                 .then(function (r) {
+                    console.log(r.data)
                     r.data.forEach(function (d) {
-                        // Creating a div to hold the movie
-                        var movieDiv = $("<div class='game m-2'>");
 
-                        // Storing the rating data
+                        var movieDiv = $("<div class='game m-2' id= 'image-toggler'>");
                         var rated = d.rating;
+                        var pOne = $("<p>").text("Rating: " + rated);                 
+                        movieDiv.append(pOne);        
+                        
+                        var imgURL = d.images.fixed_height_still.url;
+                        var gifURL = d.images.original.url;   
+                                
+                        var stillImage = $("<img>").attr("src", imgURL);  
+                        var gifImage = $("<img style='display:none'>").attr("src", gifURL);  
 
-                        // Creating an element to have the rating displayed
-                        var pOne = $("<p>").text("Rating: " + rated);
+                        movieDiv.append(stillImage);
+                        movieDiv.append(gifImage);
 
-                        // Displaying the rating
-                        movieDiv.append(pOne);
-
-                        // Retrieving the URL for the image
-                        var imgURL = d.images.original.url;
-
-                        // Creating an element to hold the image
-                        var image = $("<img>").attr("src", imgURL);
-
-                        // Appending the image
-                        movieDiv.append(image);
-
-                        // Putting the entire movie above the previous movies
                         $("#images-view").prepend(movieDiv);
                     })
 
@@ -99,20 +96,19 @@
 
         }
 
+//~~~~~~~~~~~~~~~~~~~ Buttons for Displaying Info and Toggling Images ~~~~~~~~~~~~~~~~~~``//
         $("#add-game").on("click", function (event) {
             event.preventDefault();
-            // This line grabs the input from the textbox
             var movie = $("#game-input").val().trim();
-
-            // Adding movie from the textbox to our array
             vgArray.push(movie);
-
-            // Calling renderButtons which handles the processing of our movie array
             createButtons();
+
         });
 
         $(document).on("click", ".game-button", displayInfo);
-
+        $(document).on("click", "#image-toggler", function(){
+            $(this).find('img').toggle()
+        })
 
         createButtons()
     </script>
